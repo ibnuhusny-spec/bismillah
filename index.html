@@ -19,32 +19,37 @@
 
     <div id="info">
         <h3>AR Custom Model</h3>
-        <p>Scan marker Hiro. Model sudah ditegakkan.</p>
+        <p>Scan marker Hiro. Model berputar mengelilingi porosnya.</p>
     </div>
 
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;">
         
         <a-marker preset="hiro">
             
-            <!-- 
-                PERUBAHAN PENTING:
-                1. rotation="-90 0 0" -> Ini kuncinya! Angka pertama (X) diubah jadi -90 agar model "berdiri".
-                   (Jika model malah terbalik kepalanya, coba ganti jadi "90 0 0" atau kembalikan ke "0 0 0")
-                
-                2. animation: Saya sesuaikan agar dia berputar tapi tetap dalam posisi berdiri (-90).
-                   from: -90 0 0
-                   to: -90 360 0
-            -->
-            <a-entity 
-                gltf-model="./Camping Asset Collection.glb" 
-                scale="0.5 0.5 0.5" 
-                position="0 0 0" 
-                rotation="-90 0 0"
-                animation="property: rotation; from: -90 0 0; to: -90 360 0; loop: true; dur: 10000; easing: linear">
-            </a-entity>
-
-            <!-- Bayangan -->
+            <!-- Bayangan (Diam di tempat, tidak ikut berputar) -->
             <a-plane position="0 0 0" rotation="-90 0 0" width="2" height="2" material="opacity: 0.3; color: black; transparent: true"></a-plane>
+
+            <!-- 
+                SOLUSI: 
+                Kita gunakan teknik "Wadah" (Wrapper).
+                1. <a-entity> LUAR ini tugasnya hanya BERPUTAR (Animasi).
+            -->
+            <a-entity position="0 0 0" 
+                      animation="property: rotation; from: 0 0 0; to: 0 360 0; loop: true; dur: 10000; easing: linear">
+                
+                <!-- 
+                    2. Model GLB di DALAM wadah.
+                       Tugasnya hanya "BERDIRI TEGAK" (rotation="-90 0 0").
+                       Dia tidak punya animasi sendiri, dia ikut putaran wadahnya.
+                -->
+                <a-entity 
+                    gltf-model="./Camping Asset Collection.glb" 
+                    scale="0.5 0.5 0.5" 
+                    rotation="-90 0 0"
+                    position="0 0 0">
+                </a-entity>
+
+            </a-entity>
 
         </a-marker>
 
