@@ -13,43 +13,50 @@
             position: absolute; top: 10px; width: 100%; text-align: center;
             z-index: 100; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px;
         }
+        #debug-text {
+            color: yellow; font-weight: bold; font-size: 1.2em;
+        }
     </style>
 </head>
 <body style="margin : 0px; overflow: hidden;">
 
     <div id="info">
         <h3>AR Custom Model</h3>
-        <p>Scan marker Hiro. Model berputar mengelilingi porosnya.</p>
+        <p id="debug-text">Versi 3 (Final)</p>
+        <p>Tiang Merah = Pusat Rotasi</p>
     </div>
 
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;">
         
         <a-marker preset="hiro">
             
-            <!-- Bayangan (Diam di tempat, tidak ikut berputar) -->
-            <a-plane position="0 0 0" rotation="-90 0 0" width="2" height="2" material="opacity: 0.3; color: black; transparent: true"></a-plane>
-
-            <!-- 
-                SOLUSI: 
-                Kita gunakan teknik "Wadah" (Wrapper).
-                1. <a-entity> LUAR ini tugasnya hanya BERPUTAR (Animasi).
+            <!-- 1. ALAT BANTU: TIANG PUSAT (Merah) 
+                 Ini menandakan titik tengah (poros). Rumah harus berada PAS di tengah tiang ini.
             -->
-            <a-entity position="0 0 0" 
-                      animation="property: rotation; from: 0 0 0; to: 0 360 0; loop: true; dur: 10000; easing: linear">
+            <a-cylinder position="0 1 0" radius="0.05" height="2" color="red" material="opacity: 0.5"></a-cylinder>
+
+            <!-- 2. WADAH PEMUTAR (Rotator)
+                 Wadah ini berputar 360 derajat pada sumbu Y (Vertikal).
+            -->
+            <a-entity animation="property: rotation; from: 0 0 0; to: 0 360 0; loop: true; dur: 10000; easing: linear">
                 
+                <!-- 3. MODEL ANDA (Isi Wadah) -->
                 <!-- 
-                    2. Model GLB di DALAM wadah.
-                       Tugasnya hanya "BERDIRI TEGAK" (rotation="-90 0 0").
-                       Dia tidak punya animasi sendiri, dia ikut putaran wadahnya.
+                     PENTING: Atur 'position' jika rumahnya melenceng dari tiang merah.
+                     Contoh: position="1 0 0" (geser kanan) atau position="0 0 1" (geser depan)
+                     Cobalah ubah angka position di bawah ini sampai rumah pas menempel di tiang merah.
                 -->
                 <a-entity 
                     gltf-model="./Camping Asset Collection.glb" 
                     scale="0.5 0.5 0.5" 
                     rotation="-90 0 0"
-                    position="0 0 0">
+                    position="0 0 0"> 
                 </a-entity>
 
             </a-entity>
+
+            <!-- Bayangan Lantai -->
+            <a-plane position="0 0 0" rotation="-90 0 0" width="3" height="3" material="opacity: 0.3; color: black; transparent: true"></a-plane>
 
         </a-marker>
 
