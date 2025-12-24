@@ -12,9 +12,7 @@
         #info {
             position: absolute; top: 10px; width: 100%; text-align: center;
             z-index: 100; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px;
-        }
-        #debug-text {
-            color: yellow; font-weight: bold; font-size: 1.2em;
+            border-radius: 0 0 10px 10px;
         }
     </style>
 </head>
@@ -22,32 +20,30 @@
 
     <div id="info">
         <h3>AR Custom Model</h3>
-        <p id="debug-text">Versi 3 (Final)</p>
-        <p>Tiang Merah = Pusat Rotasi</p>
+        <p>Versi Bersih (Tanpa Tiang)</p>
     </div>
 
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;">
         
         <a-marker preset="hiro">
             
-            <!-- 1. ALAT BANTU: TIANG PUSAT (Merah) 
-                 Ini menandakan titik tengah (poros). Rumah harus berada PAS di tengah tiang ini.
-            -->
-            <a-cylinder position="0 1 0" radius="0.05" height="2" color="red" material="opacity: 0.5"></a-cylinder>
-
-            <!-- 2. WADAH PEMUTAR (Rotator)
-                 Wadah ini berputar 360 derajat pada sumbu Y (Vertikal).
-            -->
-            <a-entity animation="property: rotation; from: 0 0 0; to: 0 360 0; loop: true; dur: 10000; easing: linear">
+            <!-- WADAH PEMUTAR (Rotator) -->
+            <!-- Wadah ini berputar di tempat seperti piringan hitam -->
+            <a-entity animation="property: rotation; from: 0 0 0; to: 0 360 0; loop: true; dur: 15000; easing: linear">
                 
-                <!-- 3. MODEL ANDA (Isi Wadah) -->
+                <!-- MODEL ANDA -->
                 <!-- 
-                     PENTING: Atur 'position' jika rumahnya melenceng dari tiang merah.
-                     Contoh: position="1 0 0" (geser kanan) atau position="0 0 1" (geser depan)
-                     Cobalah ubah angka position di bawah ini sampai rumah pas menempel di tiang merah.
+                   TIPS AGAR BERPUTAR DI POROSNYA:
+                   Jika rumah berputar melebar (seperti mengelilingi sesuatu),
+                   Anda harus mengubah angka 'position' di bawah ini untuk melawan arah melencengnya.
+
+                   Contoh:
+                   - Jika rumah terlalu ke KANAN, ubah jadi position="-1 0 0" (Geser kiri)
+                   - Jika rumah terlalu ke DEPAN, ubah jadi position="0 0 -1" (Geser belakang)
+                   - Jika rumah terlalu TINGGI, ubah jadi position="0 -1 0" (Turunkan)
                 -->
                 <a-entity 
-                    gltf-model="./Apartment 2.glb" 
+                    gltf-model="./Camping Asset Collection.glb" 
                     scale="0.5 0.5 0.5" 
                     rotation="-90 0 0"
                     position="0 0 0"> 
@@ -64,4 +60,3 @@
     </a-scene>
 </body>
 </html>
-
