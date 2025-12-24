@@ -20,7 +20,7 @@
 
     <div id="info">
         <h3>AR Custom Model</h3>
-        <p>Versi Bersih (Tanpa Tiang)</p>
+        <p>Versi 4: Rotasi Bumi (Tegak)</p>
     </div>
 
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;">
@@ -28,19 +28,16 @@
         <a-marker preset="hiro">
             
             <!-- WADAH PEMUTAR (Rotator) -->
-            <!-- Wadah ini berputar di tempat seperti piringan hitam -->
+            <!-- Berputar pada sumbu Y (Vertikal) -->
             <a-entity animation="property: rotation; from: 0 0 0; to: 0 360 0; loop: true; dur: 15000; easing: linear">
                 
                 <!-- MODEL ANDA -->
                 <!-- 
-                   TIPS AGAR BERPUTAR DI POROSNYA:
-                   Jika rumah berputar melebar (seperti mengelilingi sesuatu),
-                   Anda harus mengubah angka 'position' di bawah ini untuk melawan arah melencengnya.
-
-                   Contoh:
-                   - Jika rumah terlalu ke KANAN, ubah jadi position="-1 0 0" (Geser kiri)
-                   - Jika rumah terlalu ke DEPAN, ubah jadi position="0 0 -1" (Geser belakang)
-                   - Jika rumah terlalu TINGGI, ubah jadi position="0 -1 0" (Turunkan)
+                   PERBAIKAN ROTASI:
+                   Saya kembalikan rotation ke "0 0 0". 
+                   Biasanya ini posisi standar agar rumah tegak lurus seperti bumi.
+                   
+                   Jika masih salah, coba ganti rotation="90 0 0".
                 -->
                 <a-entity 
                     gltf-model="./Camping Asset Collection.glb" 
@@ -52,7 +49,7 @@
             </a-entity>
 
             <!-- Bayangan Lantai -->
-            <a-plane position="0 0 0" rotation="0 0 0" width="3" height="3" material="opacity: 0.3; color: black; transparent: true"></a-plane>
+            <a-plane position="0 0 0" rotation="-90 0 0" width="3" height="3" material="opacity: 0.3; color: black; transparent: true"></a-plane>
 
         </a-marker>
 
@@ -60,8 +57,3 @@
     </a-scene>
 </body>
 </html>
-
-
-
-
-
